@@ -102,6 +102,5 @@ export TOKEN_MINTER=0x84a3Dc38b787AC2C2f5e0a62bd5f9Ec4dDEbD43e
 Project init - forge init
 Open zepp contracts - forge install OpenZeppelin/openzeppelin-contracts
 
-Deno as Jupyter kernel - https://blog.jupyter.org/bringing-modern-javascript-to-the-jupyter-notebook-fc998095081e
 
-* Had to reinstall jupyter, then install the demo kernel and that's it.
+
