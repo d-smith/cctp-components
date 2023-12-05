@@ -2,13 +2,7 @@
 
 This project contains elements to use an arbitrary ERC20 token with CCTP
 
-## Deploy
 
-forge script script/Token.s.sol:DeployScript --broadcast --rpc-url http://127.0.0.1:8545 --extra-output-files abi --extra-output-files bin
-
-For Moonbeam:
-
-forge script script/MBToken.s.sol:DeployScript --broadcast --rpc-url http://127.0.0.1:9933 --legacy --extra-output-files abi --extra-output-files bin
 
 ## Nodes
 
@@ -26,13 +20,40 @@ docker pull purestake/moonbeam:v0.32.2
 docker run --rm --name moonbeam_development -p 9944:9944 -p 9933:9933 purestake/moonbeam:v0.32.2 --dev --ws-external --rpc-external 
 ```
 
+## Deploy
+
+```
+forge script script/Token.s.sol:DeployScript --broadcast --rpc-url http://127.0.0.1:8545 --extra-output-files abi --extra-output-files bin
+```
+
+For Moonbeam:
+
+```
+forge script script/MBToken.s.sol:DeployScript --broadcast --rpc-url http://127.0.0.1:9933 --legacy --extra-output-files abi --extra-output-files bin
+```
+
 ## CCTP Deployment
+
+Get the token contract details
+
+node script/deploy-details.js 
+export FIDDY_ETH_ADDRESS=0xdb98a5bFBA239000213813B2615B8A96E950A79B
+
+node script/mbdeploy-details.js 
+export FIDDY_MB_ADDRESS=0xc01Ee7f10EA4aF4673cFff62710E1D7792aBa8f3
+
+Deploy the contracts:
+
+Determine the remote deploy - here we use moonbeam 9
+export REMOTE_TOKEN_MESSENGER_DEPLOYER=0x2898FE7a42Be376C8BC7AF536A940F7Fd5aDd423
+
+ python3 scripts/precomputeRemoteMessengerAddress.py --REMOTE_RPC_URL http://127.0.0.1:9933
 
 
 
 ```
-export DEPLOYER_KEY=0xcb1a18dff8cfcee16202bf86f1f89f8b3881107b8192cd06836fda9dbc0fde1b
-export ADMIN_ADDRESS=0x892BB2e4F6b14a2B5b82Ba8d33E5925D42D4431F
+export DEPLOYER_KEY=0xf9832eeac47db42efeb2eca01e6479bfde00fda8fdd0624d45efd0e4b9ddcd3b
+export ADMIN_ADDRESS=0x73dA1eD554De26C467d97ADE090af6d52851745E
 export MESSAGE_TRANSMITTER_DEPLOYER_KEY=$DEPLOYER_KEY
 export TOKEN_MESSENGER_DEPLOYER_KEY=$DEPLOYER_KEY
 export TOKEN_MINTER_DEPLOYER_KEY=$DEPLOYER_KEY
@@ -49,7 +70,6 @@ export DOMAIN=1
 export REMOTE_DOMAIN=2
 export BURN_LIMIT_PER_MESSAGE=10000000
 
-export REMOTE_TOKEN_MESSENGER_ADDRESS=0x970951a12f975e6762482aca81e57d5a2a4e73f4
 export USDC_CONTRACT_ADDRESS=$FIDDY_ETH_ADDRESS
 export REMOTE_USDC_CONTRACT_ADDRESS=$FIDDY_MB_ADDRESS
 ```
@@ -78,7 +98,7 @@ python3 scripts/precomputeRemoteMessengerAddress.py --REMOTE_RPC_URL http://127.
 
 (grab the .env entry)
 
-export REMOTE_TOKEN_MESSENGER_ADDRESS=0x3ed62137c5db927cb137c26455969116bf0c23cb
+REMOTE_TOKEN_MESSENGER_ADDRESS=0x0f5078e4bb393df0286d31759c0c6da63ea98451
 
 4. Deploy the cctp contracts
 
@@ -101,6 +121,13 @@ export TOKEN_MINTER=0x84a3Dc38b787AC2C2f5e0a62bd5f9Ec4dDEbD43e
 
 Project init - forge init
 Open zepp contracts - forge install OpenZeppelin/openzeppelin-contracts
+
+For python:
+
+virtualenv -p python3 .venv
+$ . .venv/bin/activate
+(.venv) $ pip install -r requirements.txt
+
 
 
 
