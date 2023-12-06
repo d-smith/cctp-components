@@ -128,6 +128,6 @@ virtualenv -p python3 .venv
 $ . .venv/bin/activate
 (.venv) $ pip install -r requirements.txt
 
-
+abigen --abi mt.abi --pkg mt --type MessageTransmitter --out MessageTransmitter.go
 
 
