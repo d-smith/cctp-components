@@ -29,7 +29,7 @@ func main() {
 		privateKeyFromEnv = privateKeyFromEnv[2:]
 	}
 
-	_, err := crypto.HexToECDSA(privateKeyFromEnv)
+	privateKey, err := crypto.HexToECDSA(privateKeyFromEnv)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -71,21 +71,29 @@ func main() {
 
 			fmt.Printf("*** Transaction hash %s ***\n", ms.Raw.TxHash.Hex())
 
-			//msgHash := crypto.Keccak256Hash(ms.Message)
+			msgHash := crypto.Keccak256Hash(ms.Message)
 			//stamp := []byte("\x19Ethereum Signed Message:\n32")
-			//signature, err := crypto.Sign(crypto.Keccak256Hash(stamp, msgHash.Bytes()).Bytes(), privateKey)
+			signature, err := crypto.Sign(msgHash[:], privateKey)
 			//if err != nil {
 			//	log.Fatal(err)
 			//}
 
-			//if signature[crypto.RecoveryIDOffset] == 0 || signature[crypto.RecoveryIDOffset] == 1 {
-			//		signature[crypto.RecoveryIDOffset] += 27
-			//}
+			if signature[crypto.RecoveryIDOffset] == 0 || signature[crypto.RecoveryIDOffset] == 1 {
+				signature[crypto.RecoveryIDOffset] += 27
+			}
 
 			//fmt.Printf("export ATTESTOR_SIG=%s\n", hexutil.Encode(signature))
 
 			//fmt.Println(ms)
 			fmt.Printf("%+v\n", ms)
+			//signed, err := signMessage(ms.Message, privateKey)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			fmt.Printf("MESSAGE: %s\n", hexutil.Encode(ms.Message))
+			fmt.Printf("SIGNED MESSAGE size: %d\n", len(signature))
+			fmt.Printf("SIGNED MESSAGE: %s\n", hexutil.Encode(signature))
 
 			//parsedMessage, err := parseDepositForBurn(ms.Message)
 			//if err != nil {
@@ -107,6 +115,20 @@ func personalSign(message string, privateKey *ecdsa.PrivateKey) (string, error) 
 	}
 	signatureBytes[64] += 27
 	return hexutil.Encode(signatureBytes), nil
+}
+
+func signMessage(message []byte, attestorKey *ecdsa.PrivateKey) ([]byte, error) {
+	msgHash := crypto.Keccak256Hash(message)
+	stamp := []byte("\x19Ethereum Signed Message:\n32")
+	signature, err := crypto.Sign(crypto.Keccak256Hash(stamp, msgHash.Bytes()).Bytes(), attestorKey)
+	if err != nil {
+		return nil, err
+	}
+
+	if signature[crypto.RecoveryIDOffset] == 0 || signature[crypto.RecoveryIDOffset] == 1 {
+		signature[crypto.RecoveryIDOffset] += 27
+	}
+	return signature, nil
 }
 
 type MessageSent struct {
