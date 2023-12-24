@@ -177,3 +177,20 @@ $ . .venv/bin/activate
 abigen --abi mt.abi --pkg mt --type MessageTransmitter --out MessageTransmitter.go
 
 
+## Notes
+
+Moonbeam deployment of CCTP is problematic - errors, etc.
+
+Trying latest:
+
+```
+docker pull moonbeamfoundation/moonbeam:v0.34.1
+
+docker run --rm --name moonbeam_development -p 9944:9944 -p 9933:9933  \
+moonbeamfoundation/moonbeam:v0.34.1 \
+--dev --ws-external --rpc-external 
+
+```
+
+
+Running into dead end deploying to latest moonbeam... time to shift gears?
