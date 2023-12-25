@@ -1,3 +1,5 @@
+.secret
+
 # Compiler files
 cache/
 out/
@@ -5,6 +7,7 @@ out/
 # Ignores development broadcast logs
 !/broadcast
 /broadcast/*/31337/
+/broadcast/*/80001/
 /broadcast/*/1281/
 /broadcast/**/dry-run/
 
