@@ -193,4 +193,8 @@ moonbeamfoundation/moonbeam:v0.34.1 \
 ```
 
 
-Running into dead end deploying to latest moonbeam... time to shift gears?
+### Notes
+
+* Shifted from moonbeam to polygon mumbai
+* Fist mint attemped used the mint recipient as the receiver - need to use an IMessageHandler, which is 
+implemented by the token messenger
