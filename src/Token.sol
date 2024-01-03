@@ -10,6 +10,9 @@ contract FiddyCent is ERC20, ERC20Burnable, ERC20Pausable, AccessControl {
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
+    event To(address indexed to);
+    event Amount(uint256 indexed amount);
+
     constructor(address defaultAdmin, address pauser, address minter)
         ERC20("FiddyCent", "FDDC")
     {
@@ -27,8 +30,23 @@ contract FiddyCent is ERC20, ERC20Burnable, ERC20Pausable, AccessControl {
         _unpause();
     }
 
-    function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+    //function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+    //    _mint(to, amount);
+    //}
+
+    function mint(address to, uint256 amount) public returns (bool)  {
+        if (!hasRole(MINTER_ROLE, msg.sender)) {
+            revert ("Caller is not a minter");
+        }
+        if(to == address(0)) {
+            revert ("ERC20InvalidReceiver Cannot mint to zero address");
+        }
+
+        //emit To(to);
+        //emit Amount(amount);
+        
         _mint(to, amount);
+       return true;
     }
 
     // The following functions are overrides required by Solidity.
