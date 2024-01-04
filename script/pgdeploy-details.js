@@ -1,4 +1,4 @@
-const ethDeploy = require("../broadcast/PGToken.s.sol/80001/run-latest.json");
+const ethDeploy = require("../broadcast/Token.s.sol/80001/run-latest.json");
 
 const main = async () => {
     //console.log(ethDeploy.transactions);
