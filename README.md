@@ -37,4 +37,7 @@ $ . .venv/bin/activate
 
 abigen --abi mt.abi --pkg mt --type MessageTransmitter --out MessageTransmitter.go
 
+One challenge in the implementation was the difference in signatures between the mint functions in the ERC20 and the Circle contracts:ERC20 has a void return type, while the Circle contract returns a boolean. This required a custom implementation of the mint function in my version of the ERC20 contract.
+
+
 
