@@ -15,6 +15,12 @@ cd anvil
 
 Polyon - access Mumbai testnet via Alchemy
 
+For polygon, set the following environment variables:
+
+* PG - EOA for the polygon network
+* PGKEY - private key for the polygon network
+* PG_URL - Alchemy API URL for the polygon Mumbai test network, including the api version and api key url components.
+
 ## Deploy
 
 Use the Python notebooks in the demo directory to deploy:
